@@ -12,7 +12,7 @@ function Navbar() {
             <Image
               src={Logo}
               alt="Skyflow Logo"
-              className="  size-11 bg-white  rounded-full"
+              className="  size-11  rounded-full"
             ></Image>
             <span className="text-3xl font-semibold">Sky<span className=" text-primary ">flow</span></span>
           </Link>
