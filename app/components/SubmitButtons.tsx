@@ -5,7 +5,21 @@ import Image from "next/image";
 import GoogleLogo from "@/public/google.svg";
 import { Loader2 } from "lucide-react";
 import GithubLogo from "@/public/github.svg";
+import { cn } from "@/lib/utils";
 
+interface buttonProps {
+  text: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null
+    | undefined;
+  className?: string;
+}
 export const GoogleSubmitButton = () => {
   const { pending } = useFormStatus();
 
@@ -46,6 +60,31 @@ export const GithubSubmitButton = () => {
             alt="github logo"
           ></Image>
           <span>Sign in with Github</span>
+        </Button>
+      )}
+    </>
+  );
+};
+
+export const SubmitButton = ({
+  text,
+  ispending,
+  variant,
+  className,
+}: { ispending: boolean } & buttonProps) => {
+  return (
+    <>
+      {ispending ? (
+        <Button disabled variant="outline" className={cn("w-fit", className)}>
+          <Loader2 className="size-4 mr-2 animate-spin">Please Wait</Loader2>
+        </Button>
+      ) : (
+        <Button
+          type="submit"
+          variant={variant}
+          className={cn("w-fit", className)}
+        >
+          {text}
         </Button>
       )}
     </>

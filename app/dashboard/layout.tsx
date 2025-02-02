@@ -22,8 +22,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth, signOut } from "../auth";
 import userAuth from "../utils/userAuth";
-async function DashboardLayout() {
+import { ReactNode } from "react";
+import { prisma } from "../prisma";
+import { redirect } from "next/navigation";
+
+async function getData(userId: string) {
+  const data = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      userName: true,
+    },
+  });
+  if (!data?.userName) {
+    redirect("/onboarding");
+  }
+  return data;
+}
+async function DashboardLayout({ children }: { children: ReactNode }) {
   const session = await userAuth();
+  const data = await getData(session.user?.id as string);
   return (
     <>
       <div className="min-h-screen w-full grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]  ">
@@ -96,10 +115,13 @@ async function DashboardLayout() {
                     <Link href="/dashboard/settings">Settings</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <form className="w-full" action={async ()=>{
-                      "use server"
-                      await signOut();
-                    }}>
+                    <form
+                      className="w-full"
+                      action={async () => {
+                        "use server";
+                        await signOut();
+                      }}
+                    >
                       <button className="w-full text-left">Log out</button>
                     </form>
                   </DropdownMenuItem>
@@ -107,6 +129,9 @@ async function DashboardLayout() {
               </DropdownMenu>
             </div>
           </header>
+          <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+            {children}
+          </main>
         </div>
       </div>
     </>
