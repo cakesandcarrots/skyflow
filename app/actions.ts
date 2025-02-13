@@ -4,7 +4,6 @@ import { prisma } from "./prisma";
 import userAuth from "./utils/userAuth";
 import { parseWithZod } from "@conform-to/zod";
 import {
-  OnboardingSchema,
   OnboardingSchemaValidator,
 } from "./utils/zodSchemas";
 import { redirect } from "next/navigation";
@@ -37,5 +36,5 @@ export async function OnboardingAction(prevState: any, formaData: FormData) {
       name: submission.value.fullName,
     },
   });
-  return redirect("/dashboard")
+  return redirect("/onboarding/grant-id")
 }
