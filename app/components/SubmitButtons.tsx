@@ -66,17 +66,14 @@ export const GithubSubmitButton = () => {
   );
 };
 
-export const SubmitButton = ({
-  text,
-  ispending,
-  variant,
-  className,
-}: { ispending: boolean } & buttonProps) => {
+export function SubmitButton({ text, variant, className }: buttonProps) {
+  const { pending } = useFormStatus();
+
   return (
     <>
-      {ispending ? (
+      {pending ? (
         <Button disabled variant="outline" className={cn("w-fit", className)}>
-          <Loader2 className="size-4 mr-2 animate-spin">Please Wait</Loader2>
+          <Loader2 className="size-4 mr-2 animate-spin" /> Please Wait
         </Button>
       ) : (
         <Button
@@ -89,4 +86,4 @@ export const SubmitButton = ({
       )}
     </>
   );
-};
+}

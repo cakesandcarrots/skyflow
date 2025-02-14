@@ -5,6 +5,8 @@ import userAuth from "./utils/userAuth";
 import { parseWithZod } from "@conform-to/zod";
 import { OnboardingSchemaValidator, settingsSchema } from "./utils/zodSchemas";
 import { redirect } from "next/navigation";
+import { truncateSync } from "fs";
+import { revalidatePath } from "next/cache";
 export async function OnboardingAction(prevState: any, formaData: FormData) {
   const session = await userAuth();
   const submission = await parseWithZod(formaData, {
@@ -32,6 +34,47 @@ export async function OnboardingAction(prevState: any, formaData: FormData) {
     data: {
       userName: submission.value.userName,
       name: submission.value.fullName,
+      availability: {
+        createMany: {
+          data: [
+            {
+              day: "Monday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Tuesday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Wednesday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Thursday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Friday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Saturday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+            {
+              day: "Sunday",
+              fromTime: "08:00",
+              tillTime: "18:00",
+            },
+          ],
+        },
+      },
     },
   });
   return redirect("/onboarding/grant-id");
@@ -51,9 +94,45 @@ export async function SettingsAction(prevState: any, formData: FormData) {
     },
     data: {
       name: submission.value.fullName,
-      image: submission.value.profileImage
+      image: submission.value.profileImage,
+    },
+  });
+
+  return redirect("/dashboard");
+}
+
+
+export async function updateAvailabilityAction(formData: FormData){
+  const session = await userAuth();
+  const rawData = Object.fromEntries(formData.entries())
+
+  const availabilityData = Object.keys(rawData).filter((key)=>
+    key.startsWith("id-")
+  ).map((key)=>{
+    const id = key.replace("id-","");
+    return {
+      id,
+      isActive: rawData[`isActive-${id}`]==="on",
+      fromTime: rawData[`fromTime-${id}`] as string,
+      tillTime: rawData[`tillTime-${id}`] as string
     }
   })
 
-  return redirect("/dashboard")
+  try{
+    await prisma.$transaction(availabilityData.map((item)=>prisma.availability.update({
+      where: {
+        id: item.id
+      },
+      data: {
+        isActive: item.isActive,
+        fromTime: item.fromTime,
+        tillTime: item.tillTime
+      }
+    })));
+
+    revalidatePath("/dashboard/availability")
+  }catch(error){
+    console.log(error)
+  }
+
 }

@@ -121,7 +121,6 @@ export function SettingsForm({ fullName, email, profileImage }: contentProps) {
         <CardFooter>
           <SubmitButton
             text="Save Changes"
-            ispending={isPending}
           ></SubmitButton>
         </CardFooter>
       </form>

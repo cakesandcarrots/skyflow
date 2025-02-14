@@ -81,7 +81,7 @@ function Onboarding() {
               </div>
             </CardContent>
             <CardFooter>
-                <SubmitButton className="w-full" ispending= {isPending} text="Submit"></SubmitButton>
+                <SubmitButton className="w-full"  text="Submit"></SubmitButton>
             </CardFooter>
           </form>
         </Card>
