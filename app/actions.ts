@@ -3,7 +3,7 @@
 import { prisma } from "./prisma";
 import userAuth from "./utils/userAuth";
 import { parseWithZod } from "@conform-to/zod";
-import { OnboardingSchemaValidator, settingsSchema } from "./utils/zodSchemas";
+import { eventTypeSchema, OnboardingSchemaValidator, settingsSchema } from "./utils/zodSchemas";
 import { redirect } from "next/navigation";
 import { truncateSync } from "fs";
 import { revalidatePath } from "next/cache";
@@ -135,4 +135,24 @@ export async function updateAvailabilityAction(formData: FormData){
     console.log(error)
   }
 
+}
+
+export async function createEventTypeAction(previousState: any,formData: FormData){
+  const session = await userAuth();
+  const submission = parseWithZod(formData,{
+    schema: eventTypeSchema,
+  });
+  if(submission.status!=="success"){
+    return submission.reply();
+  }
+  await prisma.eventType.create({
+    data: {
+      title: submission.value.title,
+      duration: submission.value.duration,
+      url: submission.value.url,
+      description: submission.value.videoCallSoftware,
+      userId: session.user?.id
+    }
+  })
+  return redirect("/dashboard")
 }
