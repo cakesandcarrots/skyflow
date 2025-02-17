@@ -10,7 +10,7 @@ export default function OnboardingrouteTwo(){
             <Card>
                 <CardHeader>
                     <CardTitle>You are almost done!</CardTitle>
-                    <CardDescription> Next you will have to connect your account to the calender. </CardDescription>
+                    <CardDescription> Next you will have to connect your account to the calendar. </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Button asChild className="w-full ">
