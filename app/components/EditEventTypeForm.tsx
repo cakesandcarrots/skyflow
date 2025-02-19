@@ -1,9 +1,10 @@
 "use client";
-import { createEventTypeAction } from "@/app/actions";
-import { SubmitButton } from "@/app/components/SubmitButtons";
-import { eventTypeSchema } from "@/app/utils/zodSchemas";
-import { Button } from "@/components/ui/button";
-import ButtonGroup from "@/components/ui/ButtonGroup";
+
+import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import React, { useActionState, useState } from "react";
+import { createEventTypeAction, EditEventTypeAction } from "../actions";
+import { eventTypeSchema } from "../utils/zodSchemas";
 import {
   Card,
   CardContent,
@@ -12,29 +13,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
-  SelectGroup
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { Label } from "@/components/ui/label";
+import ButtonGroup from "@/components/ui/ButtonGroup";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useActionState, useState } from "react";
-
+import { SubmitButton } from "./SubmitButtons";
 type VideoCallProvider = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
-function page() {
-  const [activePlatform, setActivePlatform] =
-    useState<VideoCallProvider>("Google Meet");
 
-  const [lastResult, action] = useActionState(createEventTypeAction, undefined);
+interface Props {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  duration: number;
+  callProvider: string;
+}
+
+function EditEventTypeForm({
+  callProvider,
+  description,
+  duration,
+  id,
+  title,
+  url,
+}: Props) {
+  const [activePlatform, setActivePlatform] = useState<VideoCallProvider>(
+    callProvider as VideoCallProvider
+  );
+  console.log(description, callProvider);
+  const [lastResult, action] = useActionState(EditEventTypeAction, undefined);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -45,15 +63,14 @@ function page() {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
-
   return (
     <>
       <div className="w-full h-full flex flex-1 items-center justify-center">
         <Card>
           <CardHeader>
-            <CardTitle>Add new appointment type </CardTitle>{" "}
+            <CardTitle>Edit appointment type </CardTitle>{" "}
             <CardDescription>
-              Create new appointment type that allows people to book you
+              Edit your appointment details as per your convenience
             </CardDescription>
           </CardHeader>
 
@@ -63,13 +80,14 @@ function page() {
             action={action}
             noValidate
           >
+            <input type="hidden" name="id" value={id}></input>
             <CardContent className="grid gap-y-5">
               <div className="flex flex-col gap-y-2">
                 <Label>Title</Label>
                 <Input
                   name={fields.title.name}
                   key={fields.title.key}
-                  defaultValue={fields.title.initialValue}
+                  defaultValue={title}
                   placeholder="30 Minute Meeting"
                 ></Input>
                 <p className="text-red-500 text-sm">{fields.title.errors}</p>
@@ -85,21 +103,17 @@ function page() {
                     placeholder="Link-url-1"
                     name={fields.url.name}
                     key={fields.url.key}
-                    defaultValue={fields.url.initialValue}
+                    defaultValue={url}
                   ></Input>
                 </div>
-                <p
-                  className="text-red-500 text-sm"
-                >
-                  {fields.url.errors}
-                </p>
+                <p className="text-red-500 text-sm">{fields.url.errors}</p>
               </div>
               <div className="flex flex-col gap-y-2">
                 <Label>Description</Label>
                 <Textarea
                   name={fields.description.name}
                   key={fields.description.key}
-                  defaultValue={fields.description.initialValue}
+                  defaultValue={description}
                   placeholder="Meet me in the meeting!"
                 ></Textarea>
                 <p className="text-red-500 text-sm">
@@ -112,7 +126,7 @@ function page() {
                 <Select
                   name={fields.duration.name}
                   key={fields.duration.key}
-                  defaultValue={fields.duration.initialValue}
+                  defaultValue={String(duration)}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select the duration"></SelectValue>
@@ -181,7 +195,7 @@ function page() {
               <Button variant="secondary" asChild>
                 <Link href="/dashboard">Cancel</Link>
               </Button>
-              <SubmitButton text="Create Event Type"></SubmitButton>
+              <SubmitButton text="Apply Changes"></SubmitButton>
             </CardFooter>
           </form>
         </Card>
@@ -190,4 +204,4 @@ function page() {
   );
 }
 
-export default page;
+export default EditEventTypeForm;

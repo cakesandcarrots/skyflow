@@ -1,8 +1,12 @@
+import { CreateMeetingAction } from "@/app/actions";
 import RenderCalender from "@/app/components/bookingform/RenderCalender";
 import { TimeTable } from "@/app/components/bookingform/TimeTable";
+import { SubmitButton } from "@/app/components/SubmitButtons";
 import { prisma } from "@/app/prisma";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import { CalendarX2, Clock, VideoIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 
@@ -40,14 +44,13 @@ async function getData(eventUrl: string, userName: string) {
   }
   return data;
 }
-async function page({
-  params,
-  searchParams,
-}: {
-  params: { username: string; eventUrl: string };
-  searchParams: { date?: string; time?: string };
+async function page(props: {
+  params: Promise<{ username: string; eventUrl: string }>;
+  searchParams: Promise<{ date?: string; time?: string }>;
 }) {
-  const data = await getData(await params.eventUrl, await params.username);
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const data = await getData(params.eventUrl, params.username);
   const selectedDate = searchParams.date
     ? new Date(searchParams.date)
     : new Date();
@@ -56,14 +59,14 @@ async function page({
     day: "numeric",
     month: "long",
   }).format(selectedDate);
-
+  console.log(searchParams.date, searchParams.time);
   const showForm = !!searchParams.date && !!searchParams.time;
 
   return (
     <>
-      <div className="min-h-screen w-screen flex  items-center jus tify-center">
+      <div className="min-h-screen w-screen flex  items-center justify-center">
         {showForm ? (
-          <Card className="max-w-[600px]   ">
+          <Card className="max-w-[600px] w-full">
             <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr] gap-4">
               <div>
                 <img
@@ -100,8 +103,49 @@ async function page({
                 </div>
               </div>
               <Separator orientation="vertical" className="h-full w-[1px]" />
-              <form>
-                <p>form</p>
+              <form className="flex flex-col gay-y-4" action= {CreateMeetingAction}>
+                <input
+                  type="hidden"
+                  name="fromTime"
+                  value={searchParams.time}
+                ></input>
+
+                <input
+                  type="hidden"
+                  name="eventDate"
+                  value={searchParams.date}
+                ></input>
+
+                <input
+                  type="hidden"
+                  name="meetingLength"
+                  value={data.duration}
+                ></input>
+
+                <input
+                  type="hidden"
+                  name="provider"
+                  value={data.videoCallSoftware}
+                ></input>
+
+                <input
+                  type="hidden"
+                  name="username"
+                  value={params.username}
+                ></input>
+                <input type="hidden" name="eventTypeId" value={data.id}></input>
+                <div className="flex flex-col gap-y-2">
+                  <Label>Your Name</Label>
+                  <Input name="name" placeholder="Your Name"></Input>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  <Label className="mt-2">Your Email</Label>
+                  <Input name="email" placeholder="johndoe@example.com"></Input>
+                </div>
+                <SubmitButton
+                  className="w-full mt-5"
+                  text="Book Meeting"
+                ></SubmitButton>
               </form>
             </CardContent>
           </Card>
@@ -148,7 +192,7 @@ async function page({
               <TimeTable
                 duration={data.duration}
                 selectedDate={selectedDate}
-                userName={ params.username}
+                userName={params.username}
               />
             </CardContent>
           </Card>
