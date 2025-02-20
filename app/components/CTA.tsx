@@ -4,7 +4,7 @@ import AuthModal from "./AuthModal";
 function CTA() {
   return (
     <>
-      <section className=" my-16  relative isolate overflow-hidden px-6 py-20 text-center sm:rounded-3xl sm:border sm:shadow-sm">
+      <section className=" my-10 sm:my-16  relative isolate overflow-hidden px-6 py-20 text-center sm:rounded-3xl sm:border sm:shadow-sm">
         <h2 className="font-bold text-3xl tracking-tight sm:text-4xl">
           Start using Skyflow now!
         </h2>

@@ -66,8 +66,8 @@ async function page(props: {
     <>
       <div className="min-h-screen w-screen flex  items-center justify-center">
         {showForm ? (
-          <Card className="max-w-[600px] w-full">
-            <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr] gap-4">
+          <Card className=" max-w-[600px] w-full">
+            <CardContent className="flex flex-col gap-8 md:p-5 md:grid md:grid-cols-[1fr,auto,1fr] md:gap-4">
               <div>
                 <img
                   src={data.User?.image as string}
@@ -150,8 +150,8 @@ async function page(props: {
             </CardContent>
           </Card>
         ) : (
-          <Card className="max-w-[1000px] w-full mx-auto ">
-            <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] gap-4">
+          <Card className="max-w-[1000px] w-full mx-auto  ">
+            <CardContent className="p-1 sm:p-6 flex flex-col gap-7  md:p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-4">
               <div>
                 <img
                   src={data.User?.image as string}

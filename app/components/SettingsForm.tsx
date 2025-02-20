@@ -58,7 +58,7 @@ export function SettingsForm({ fullName, email, profileImage }: contentProps) {
       <form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
         <CardContent className="flex flex-col gap-y-4">
           <div className="flex flex-col gap-y-2">
-            <Label>Full Label</Label>
+            <Label>Full Name</Label>
             <Input
               key={fields.fullName.key}
               name={fields.fullName.name}

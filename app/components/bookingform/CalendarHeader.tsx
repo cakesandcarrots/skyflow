@@ -25,7 +25,7 @@ function CalendarHeader({
     .formatToParts(state.visibleRange.start.toDate(state.timeZone))
     .map((part) => part.value);
   return (
-    <div className="flex items-center pb-4">
+    <div className="flex justify-start w-3/4 md:w-full pb-4">
       <VisuallyHidden>
         <h2>{calendarProps["aria-label"]}</h2>
       </VisuallyHidden>

@@ -25,14 +25,14 @@ export function Calendar(
   );
 
   return (
-    <div {...calendarProps} className="inline-block">
+    <div {...calendarProps} className="flex flex-col items-center md:items-start md:inline-block  ">
       <CalendarHeader
         state={state}
         calendarProps={calendarProps}
         prevButtonProps={prevButtonProps}
         nextButtonProps={nextButtonProps}
       />
-      <div className="flex gap-8">
+      <div className="flex gap-8 max-w-fit">
         <CalendarGrid state={state} isDateUnavailable={props.isDateUnavailable} />
       </div>
     </div>

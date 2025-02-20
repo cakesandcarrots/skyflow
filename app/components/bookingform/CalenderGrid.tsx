@@ -34,7 +34,7 @@ function CalendarGrid({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="w-fit">
           {[...new Array(weeksInMonth).keys()].map((weekIndex) => (
             <tr key={weekIndex}>
               {state

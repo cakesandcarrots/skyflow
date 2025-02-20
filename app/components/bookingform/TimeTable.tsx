@@ -131,10 +131,11 @@ export async function TimeTable({ selectedDate, userName, duration }: Props) {
         </span>
       </p>
 
-      <div className="mt-3 max-h-[350px] overflow-y-auto">
+      <div className="mt-3 max-h-[350px] overflow-y-auto flex flex-col justify-center items-center w-full">
         {availableSlots.length > 0 ? (
           availableSlots.map((slot, index) => (
             <Link
+            className="w-3/4"
               href={`?date=${format(selectedDate, "yyyy-MM-dd")}&time=${slot}`}
               key={index}
             >
