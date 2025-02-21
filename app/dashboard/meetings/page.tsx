@@ -44,6 +44,7 @@ async function page() {
   const session = await userAuth();
   const data = await getData(session.user?.id as string);
   console.log(data);
+ //@ts-ignore
   return (
     <>
       {data.data.length < 1 ? (
@@ -63,8 +64,8 @@ async function page() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {data.data.map((item, index) => (
-              <form action={cancelMeetingAction}>
+            {data.data.map((item) => (
+              <form key={item.id} action={cancelMeetingAction}>
                 <input type="hidden" name="eventId" value={item.id}></input>
                 <div
                   key={item.id}

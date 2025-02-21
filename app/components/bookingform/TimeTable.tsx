@@ -2,7 +2,6 @@ import { prisma } from "@/app/prisma";
 import { nylas } from "@/app/utils/nylas";
 import { Button } from "@/components/ui/button";
 import { Prisma } from "@prisma/client";
-import { Slot } from "@radix-ui/react-slot";
 import {
   addMinutes,
   format,

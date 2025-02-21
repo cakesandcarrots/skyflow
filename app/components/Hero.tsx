@@ -17,7 +17,7 @@ function Hero() {
           </h1>
 
           <p className="max-w-xl mx-auto mt-4 lg:text-lg  text-muted-foreground">
-            Scheduling meetings shouldn't be a hassle. At Skyflow, we make the
+            Scheduling meetings shouldn&apos;t be a hassle. At Skyflow, we make the
             process smooth and efficient, so you can focus on what truly
             matters—connecting with your clients.
           </p>

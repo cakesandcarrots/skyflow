@@ -9,11 +9,8 @@ import {
   settingsSchema,
 } from "./utils/zodSchemas";
 import { redirect } from "next/navigation";
-import { truncateSync } from "fs";
 import { revalidatePath } from "next/cache";
-import { error } from "console";
 import { nylas } from "./utils/nylas";
-import { title } from "process";
 export async function OnboardingAction(prevState: any, formaData: FormData) {
   const session = await userAuth();
   const submission = await parseWithZod(formaData, {

@@ -28,9 +28,8 @@ import { parseWithZod } from "@conform-to/zod";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useActionState, useState } from "react";
-
 type VideoCallProvider = "Zoom Meeting" | "Google Meet" | "Microsoft Teams";
-function page() {
+function Page() {
   const [activePlatform, setActivePlatform] =
     useState<VideoCallProvider>("Google Meet");
 
@@ -190,4 +189,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

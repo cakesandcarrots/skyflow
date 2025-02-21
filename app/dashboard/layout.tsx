@@ -20,7 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { auth, signOut } from "../auth";
+import {  signOut } from "../auth";
 import userAuth from "../utils/userAuth";
 import { ReactNode } from "react";
 import { prisma } from "../prisma";
