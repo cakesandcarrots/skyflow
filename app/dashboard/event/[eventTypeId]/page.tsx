@@ -23,7 +23,8 @@ async function getData(eventTypeId: string) {
   return data;
 }
 
-async function page({ params }: { params: { eventTypeId: string } }) {
+async function page(props: { params: Promise<{ eventTypeId: string }> }) {
+  const params = await props.params;
   const data = await getData(params.eventTypeId);
   console.log(data)
   return (

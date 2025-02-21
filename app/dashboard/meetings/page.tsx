@@ -44,7 +44,6 @@ async function page() {
   const session = await userAuth();
   const data = await getData(session.user?.id as string);
   console.log(data);
- //@ts-ignore
   return (
     <>
       {data.data.length < 1 ? (
@@ -73,17 +72,28 @@ async function page() {
                 >
                   <div>
                     <p className="text-muted-foreground text-sm">
+                      {/* @ts-ignore */}
                       {format(fromUnixTime(item.when.startTime), "EEE,dd MMM")}
                     </p>
                     <p className="text-muted-foreground text-xs pt-1">
-                      {format(fromUnixTime(item.when.startTime), "hh:mm a")} -{" "}
+                      
+                      {format(
+                        //@ts-ignore
+                        fromUnixTime(item.when.startTime),
+                        "hh:mm a"
+                      )}{" "}
+                      {/* @ts-ignore */}
+
                       {format(fromUnixTime(item.when.endTime), "hh:mm a")}
                     </p>
                     <div className="flex items-center mt-1">
                       <Video className="size-4 mr-2 text-primary"></Video>
+                      
                       <a
+                      
                         target="_blank"
-                        href={item.conferencing.details.url}
+                        //@ts-ignore
+                        href={item.conferencing?.details?.url}
                         className="text-xs text-primary underline underline-offset-4"
                       >
                         Join Meeting

@@ -9,8 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-
-function deleteEventType({ params }: { params: { eventTypeId: string } }) {
+async function deleteEventType(props: { params: Promise<{ eventTypeId: string }> }) {
+  const params = await props.params;
   return (
     <>
       <div className="flex flex-1 items-center justify-center">

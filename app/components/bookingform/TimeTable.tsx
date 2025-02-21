@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import Link from "next/link";
 import { GetFreeBusyResponse, NylasResponse } from "nylas";
-
+//@ts-ignore
 async function getData(userName: string, selectedDate: Date) {
   const currentDay = format(selectedDate, "EEEE");
   const startOfDay = new Date(selectedDate);
@@ -79,7 +79,7 @@ function calculateAvailableTimeSlots(
     "yyyy-MM-dd HH:mm",
     new Date()
   );
-
+//@ts-ignore
   const busySlots = nylasData.data[0].timeSlots.map((slot) => ({
     start: fromUnixTime(slot.startTime),
     end: fromUnixTime(slot.endTime),
